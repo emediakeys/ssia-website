@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | SSIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { 'ssia-green': '#006633', 'ssia-gold': '#FFD700', 'ssia-light': '#f0fdf4' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #reportCard, #reportCard * { visibility: visible; }
+            #reportCard { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen flex flex-col">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50 print:hidden">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3"><div class="w-10 h-10 bg-ssia-green rounded-full flex items-center justify-center text-white font-bold">S</div><span class="font-bold text-ssia-green text-lg">SSIA</span></a>
+            <a href="index.html" class="text-gray-600 hover:text-ssia-green font-medium"><i class="fas fa-home"></i></a>
+        </div>
+    </nav>
+
+    <div id="loginScreen" class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-ssia-green p-6 text-center"><h2 class="text-2xl font-bold text-white">Student Portal</h2></div>
+            <div class="p-8">
+                <form onsubmit="studentLogin(event)" class="space-y-5">
+                    <div><label class="block text-sm font-bold text-gray-700">Admission No</label><input type="text" id="loginAdm" required placeholder="SSIA/2025/XXXX" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green uppercase"></div>
+                    <div><label class="block text-sm font-bold text-gray-700">Password</label><input type="password" id="loginPass" required placeholder="******" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green"></div>
+                    <button type="submit" id="loginBtn" class="w-full bg-ssia-green text-white font-bold py-3 rounded-lg hover:bg-green-800 transition shadow-lg">Login</button>
+                    <p id="loginError" class="text-red-500 text-center text-sm hidden">Invalid Credentials.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="studentDashboard" class="hidden container mx-auto px-4 py-8">
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border-l-8 border-ssia-gold flex justify-between items-center">
+            <div><h2 class="text-2xl font-bold text-gray-800">Welcome, <span id="displayFirstName">Student</span></h2><p class="text-gray-500">Class: <span id="displayClass" class="font-bold">--</span></p></div>
+            <button onclick="logout()" class="text-red-500 font-bold"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center" id="statusCard">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Admission Status</h3>
+                <div id="statusIconBg" class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 text-3xl mx-auto mb-4"><i id="statusIcon" class="fas fa-hourglass-half"></i></div>
+                <p class="text-sm text-gray-500 mb-6" id="statusText">Under Review</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Term Result</h3>
+                <div id="resultStatusBox" class="p-4 bg-yellow-50 text-yellow-800 rounded-lg mb-6"><i class="fas fa-lock mr-2"></i> Not Released</div>
+                <button onclick="viewReportCard()" id="btnViewResult" class="bg-ssia-green text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-green-800 transition hidden"><i class="fas fa-file-alt mr-2"></i> View Result</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reportCard" class="hidden bg-white p-8 max-w-4xl mx-auto my-8 border-2 border-gray-800">
+        <div class="flex justify-between items-center border-b-4 border-ssia-green pb-4 mb-4">
+            <div class="w-24 h-24 bg-ssia-green rounded-full flex items-center justify-center text-white text-4xl font-bold">S</div>
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-ssia-green uppercase">Sabeelus Salaam Inclusive Academy</h1>
+                <p class="text-sm font-bold text-gray-600">Dulla Tafa, Kagarko LGA, Kaduna State</p>
+                <h2 class="text-xl font-bold mt-2 bg-gray-800 text-white px-4 py-1 inline-block rounded">TERMINAL REPORT SHEET</h2>
+            </div>
+            <div class="w-24 h-24 border border-gray-300 flex items-center justify-center text-xs text-gray-400">Passport</div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 text-sm mb-6 border-b pb-4">
+            <div><span class="font-bold">Name:</span> <span id="rcName">--</span></div>
+            <div><span class="font-bold">Admission No:</span> <span id="rcAdm">--</span></div>
+            <div><span class="font-bold">Class:</span> <span id="rcClass">--</span></div>
+            <div><span class="font-bold">Session:</span> 2024/2025</div>
+        </div>
+
+        <table class="w-full text-left text-sm border-collapse border border-gray-400 mb-6">
+            <thead class="bg-ssia-green text-white text-xs uppercase text-center">
+                <tr><th class="border border-gray-400 p-2 text-left">Subject</th><th class="border border-gray-400 p-2">CA</th><th class="border border-gray-400 p-2">Exam</th><th class="border border-gray-400 p-2">Total</th><th class="border border-gray-400 p-2">Grade</th><th class="border border-gray-400 p-2">Pos</th></tr>
+            </thead>
+            <tbody id="rcTableBody" class="text-center"></tbody>
+        </table>
+
+        <div class="text-center mt-8 no-print">
+            <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded font-bold">Print</button>
+            <button onclick="closeReport()" class="bg-gray-500 text-white px-6 py-2 rounded font-bold ml-4">Back</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://rfrrqocpsiuyderbebtr.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmcnJxb2Nwc2l1eWRlcmJlYnRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMzkxNDgsImV4cCI6MjA4MTcxNTE0OH0.HGwjRIP0Y6Q8W8_Pzo2YnT6rpDRNtumjrFyi66hZULE';
+        let client;
+        try { client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) {}
+
+        let currentUser = null;
+
+        async function studentLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            btn.innerText = "Checking..."; btn.disabled = true;
+            const { data } = await client.from('admissions').select('*').eq('admission_number', document.getElementById('loginAdm').value.trim()).eq('password', document.getElementById('loginPass').value.trim());
+            btn.innerText = "Login"; btn.disabled = false;
+            if (data && data.length > 0) { currentUser = data[0]; initDashboard(); } else { document.getElementById('loginError').classList.remove('hidden'); }
+        }
+
+        async function initDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('studentDashboard').classList.remove('hidden');
+            document.getElementById('displayFirstName').innerText = currentUser.full_name.split(' ')[0];
+            document.getElementById('displayClass').innerText = currentUser.grade_level;
+
+            // Admission Status
+            if (currentUser.status === 'Admitted') {
+                document.getElementById('statusIconBg').className = "w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-3xl mx-auto mb-4";
+                document.getElementById('statusIcon').className = "fas fa-check-circle";
+                document.getElementById('statusText').innerText = "Admitted into " + currentUser.grade_level;
+            } else if (currentUser.status === 'Rejected') {
+                document.getElementById('statusIconBg').className = "w-20 h-20 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-3xl mx-auto mb-4";
+                document.getElementById('statusIcon').className = "fas fa-times-circle";
+                document.getElementById('statusText').innerText = "Declined";
+            }
+
+            // Result Status
+            const { data } = await client.from('class_status').select('is_released').eq('class_name', currentUser.grade_level);
+            if (data && data.length > 0 && data[0].is_released) {
+                document.getElementById('resultStatusBox').className = "p-4 bg-green-100 text-green-800 rounded-lg mb-6";
+                document.getElementById('resultStatusBox').innerHTML = `<i class="fas fa-check-circle mr-2"></i> Results Released`;
+                document.getElementById('btnViewResult').classList.remove('hidden');
+            }
+        }
+
+        async function viewReportCard() {
+            document.getElementById('studentDashboard').classList.add('hidden');
+            document.getElementById('reportCard').classList.remove('hidden');
+            document.getElementById('rcName').innerText = currentUser.full_name;
+            document.getElementById('rcAdm').innerText = currentUser.admission_number;
+            document.getElementById('rcClass').innerText = currentUser.grade_level;
+
+            const { data: scores } = await client.from('grades').select('*').eq('student_id', currentUser.id);
+            let html = '';
+            scores.forEach(s => {
+                html += `<tr><td class="border border-gray-400 p-2 font-bold">${s.subject}</td><td class="border border-gray-400 p-2">${s.ca_score}</td><td class="border border-gray-400 p-2">${s.exam_score}</td><td class="border border-gray-400 p-2 font-bold">${s.total_score}</td><td class="border border-gray-400 p-2 font-bold">${s.grade_letter || '-'}</td><td class="border border-gray-400 p-2">${s.position || '-'}</td></tr>`;
+            });
+            document.getElementById('rcTableBody').innerHTML = html;
+        }
+
+        function closeReport() { document.getElementById('reportCard').classList.add('hidden'); document.getElementById('studentDashboard').classList.remove('hidden'); }
+        function logout() { location.reload(); }
+    </script>
+</body>
+</html>
