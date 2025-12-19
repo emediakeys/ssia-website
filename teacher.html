@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Portal | SSIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { 'ssia-green': '#006633', 'ssia-gold': '#FFD700', 'ssia-light': '#f0fdf4' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    </script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen flex flex-col relative">
+
+    <div id="confirmModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-[100] backdrop-blur-sm">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-600 text-2xl"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 class="text-xl font-bold text-gray-800" id="modalTitle">Confirm Entry</h3>
+            <p class="text-sm text-gray-500 mt-2 mb-6" id="confirmText">Are you sure?</p>
+            <div class="flex gap-3">
+                <button onclick="closeModal()" class="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50">Cancel</button>
+                <button id="confirmBtn" class="flex-1 px-4 py-2 bg-ssia-green text-white rounded-lg hover:bg-green-800 font-bold">Yes, Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed top-5 right-5 bg-white border-l-4 border-green-500 shadow-xl p-4 rounded flex items-center gap-3 transform translate-x-[150%] transition-transform duration-300 z-[100]">
+        <i class="fas fa-check-circle text-green-500"></i> <span id="toastMsg">Saved!</span>
+    </div>
+
+    <nav class="bg-white shadow-md sticky top-0 z-50 print:hidden">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3"><div class="w-10 h-10 bg-ssia-green rounded-full flex items-center justify-center text-white font-bold">S</div><span class="font-bold text-ssia-green text-lg">SSIA</span></a>
+            <a href="index.html" class="text-gray-600 hover:text-ssia-green font-medium"><i class="fas fa-home mr-2"></i> Home</a>
+        </div>
+    </nav>
+
+    <div id="loginScreen" class="flex-grow flex items-center justify-center bg-gray-100 print:hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md my-8">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-ssia-green rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl"><i class="fas fa-chalkboard-teacher"></i></div>
+                <h2 class="text-2xl font-bold text-gray-800">Staff Login</h2>
+            </div>
+            <form onsubmit="teacherLogin(event)" class="space-y-4">
+                <input type="email" id="t_email" required placeholder="Email" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-ssia-green">
+                <input type="password" id="t_pass" required placeholder="Password" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-ssia-green">
+                <button type="submit" id="loginBtn" class="w-full bg-ssia-green text-white font-bold py-3 rounded-lg hover:bg-green-800 transition shadow-lg">Login</button>
+                <p id="errorMsg" class="text-red-500 text-center text-sm hidden">Invalid Credentials.</p>
+            </form>
+        </div>
+    </div>
+
+    <div id="dashboard" class="hidden flex-grow">
+        <div class="bg-white border-b sticky top-[72px] z-40 print:hidden">
+            <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+                <div><span class="text-xs text-gray-500 uppercase font-bold">Logged in as:</span> <span class="font-bold text-ssia-green" id="teacherHeader">--</span></div>
+                <button onclick="location.reload()" class="text-red-500 font-bold text-sm hover:bg-red-50 px-3 py-1 rounded transition"><i class="fas fa-sign-out-alt mr-1"></i> Logout</button>
+            </div>
+        </div>
+
+        <main class="container mx-auto px-4 py-8">
+            <div class="bg-ssia-green rounded-2xl shadow-lg p-6 text-white mb-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div><h2 class="text-2xl font-bold" id="dashName">Hello, Teacher</h2><p class="opacity-80"><span id="dashRole">--</span> &bull; <span id="dashClass" class="font-bold text-ssia-gold">--</span></p></div>
+                    <div class="flex gap-4">
+                        <button onclick="switchView('students')" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-bold transition">Students</button>
+                        <button onclick="switchView('scores')" class="bg-white text-ssia-green px-4 py-2 rounded-lg text-sm font-bold shadow transition">Record Scores</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-students" class="hidden">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center"><h3 class="font-bold text-gray-800">Class List</h3><button onclick="window.print()" class="bg-gray-100 text-gray-600 px-4 py-2 rounded text-xs font-bold hover:bg-gray-200"><i class="fas fa-print mr-2"></i> Print</button></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left text-sm text-gray-600"><thead class="bg-gray-50 text-xs uppercase font-bold"><tr><th class="px-6 py-4">Name</th><th class="px-6 py-4">Adm No</th><th class="px-6 py-4">Gender</th></tr></thead><tbody id="studentTable" class="divide-y divide-gray-100"></tbody></table></div>
+                </div>
+            </div>
+
+            <div id="view-scores" class="hidden">
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="md:col-span-1 bg-white p-6 rounded-xl shadow h-fit">
+                        <h3 class="font-bold text-gray-800 mb-4">Configuration</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-xs font-bold text-gray-500 uppercase">Subject</label><select id="scoreSubject" onchange="checkPermission()" class="w-full px-3 py-2 border rounded-lg text-sm bg-white"><option value="">Select Subject</option><option value="Mathematics">Mathematics</option><option value="English Language">English Language</option><option value="Basic Science">Basic Science</option><option value="Social Studies">Social Studies</option><option value="Civic Education">Civic Education</option><option value="Islamic Studies">Islamic Studies</option><option value="Christian Religious Studies">CRS</option><option value="Attendance">ATTENDANCE (Days)</option></select></div>
+                            
+                            <div id="permissionAlert" class="hidden p-3 bg-red-100 text-red-700 text-xs rounded border border-red-200"><i class="fas fa-lock mr-1"></i> Restricted</div>
+                            <div id="lockedAlert" class="hidden p-3 bg-blue-100 text-blue-700 text-xs rounded border border-blue-200"><i class="fas fa-check-circle mr-1"></i> <b>Submitted:</b> Scores are locked. Contact Admin to edit.</div>
+                            
+                            <button id="btnFinalSubmit" onclick="confirmFinalSubmit()" class="hidden w-full bg-gray-800 text-white py-2 rounded-lg text-xs font-bold shadow hover:bg-black transition"><i class="fas fa-paper-plane mr-2"></i> Submit to Admin</button>
+                        </div>
+                    </div>
+                    <div class="md:col-span-3 bg-white rounded-xl shadow overflow-hidden">
+                        <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center"><h3 class="font-bold text-gray-700">Score Sheet: <span id="sheetSubject" class="text-ssia-green">Select Subject</span></h3></div>
+                        <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="bg-gray-100 text-xs uppercase font-bold text-gray-500"><tr><th class="px-4 py-3 w-1/3">Student</th><th class="px-4 py-3 text-center">CA (40)</th><th class="px-4 py-3 text-center">Exam (60)</th><th class="px-4 py-3 text-center">Total</th><th class="px-4 py-3 text-center">Action</th></tr></thead><tbody id="scoreTableBody" class="divide-y divide-gray-100"><tr><td colspan="5" class="p-8 text-center text-gray-400">Select a subject to begin grading.</td></tr></tbody></table></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://rfrrqocpsiuyderbebtr.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmcnJxb2Nwc2l1eWRlcmJlYnRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxMzkxNDgsImV4cCI6MjA4MTcxNTE0OH0.HGwjRIP0Y6Q8W8_Pzo2YnT6rpDRNtumjrFyi66hZULE';
+        let client;
+        try { client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch (e) {}
+
+        let currentUser = null, currentClass = null, classStudents = [];
+        let isLocked = false; 
+
+        // --- LOGIN ---
+        async function teacherLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            btn.innerText = "Checking..."; btn.disabled = true;
+            const { data } = await client.from('teachers').select('*').eq('email', document.getElementById('t_email').value).eq('password', document.getElementById('t_pass').value);
+            btn.innerText = "Login"; btn.disabled = false;
+            if (data && data.length > 0) { currentUser = data[0]; initDashboard(); } else { document.getElementById('errorMsg').classList.remove('hidden'); }
+        }
+
+        async function initDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            let assigned = currentUser.assigned_subject || "";
+            currentClass = assigned.includes(' - ') ? assigned.split(' - ')[1] : assigned;
+            document.getElementById('teacherHeader').innerText = currentUser.full_name;
+            document.getElementById('dashName').innerText = "Hello, " + currentUser.full_name.split(' ')[0];
+            document.getElementById('dashRole').innerText = currentUser.role;
+            document.getElementById('dashClass').innerText = currentClass;
+
+            if (currentUser.role === 'Subject Teacher') {
+                const subject = assigned.split(' - ')[0];
+                const select = document.getElementById('scoreSubject');
+                select.value = subject; select.disabled = true;
+                if (select.value !== subject) { let opt = document.createElement('option'); opt.value = subject; opt.innerText = subject; select.add(opt); select.value = subject; }
+            }
+            const { data } = await client.from('admissions').select('*').eq('grade_level', currentClass).eq('status', 'Admitted').order('full_name');
+            classStudents = data || [];
+            renderStudentList(); switchView('students');
+            if(currentUser.role === 'Subject Teacher') checkPermission();
+        }
+
+        function switchView(view) {
+            document.getElementById('view-students').classList.toggle('hidden', view !== 'students');
+            document.getElementById('view-scores').classList.toggle('hidden', view !== 'scores');
+        }
+
+        function renderStudentList() {
+            const tbody = document.getElementById('studentTable');
+            let html = '';
+            classStudents.forEach(s => { html += `<tr class="hover:bg-gray-50"><td class="px-6 py-4 font-bold text-gray-700">${s.full_name}</td><td class="px-6 py-4 font-mono text-xs">${s.admission_number || '-'}</td><td class="px-6 py-4 text-xs">${s.gender}</td></tr>`; });
+            tbody.innerHTML = html || '<tr><td colspan="3" class="p-6 text-center">No students found.</td></tr>';
+        }
+
+        // --- CHECK PERMISSION & SUBMISSION STATUS ---
+        async function checkPermission() {
+            const subject = document.getElementById('scoreSubject').value;
+            if (!subject) return;
+
+            if (subject === 'Attendance') {
+                if (currentUser.role === 'Subject Teacher') { lockInterface("Only Class Teachers mark attendance."); return; }
+            } else if (currentUser.role === 'Class Teacher') {
+                const { data } = await client.from('teachers').select('*').eq('assigned_subject', `${subject} - ${currentClass}`);
+                if (data.length > 0) { lockInterface(`Restricted: ${data[0].full_name} is assigned to this.`); return; }
+            }
+
+            const { data } = await client.from('score_submissions').select('*').eq('class', currentClass).eq('subject', subject).eq('status', 'Submitted');
+            isLocked = (data && data.length > 0);
+
+            unlockInterface();
+            if(subject === 'Attendance') loadAttendanceSheet();
+            else loadScoreSheet();
+        }
+
+        function lockInterface(msg) {
+            document.getElementById('permissionAlert').classList.remove('hidden');
+            document.getElementById('permissionAlert').innerHTML = `<i class="fas fa-lock mr-1"></i> ${msg}`;
+            document.getElementById('lockedAlert').classList.add('hidden');
+            document.getElementById('btnFinalSubmit').classList.add('hidden');
+            document.getElementById('scoreTableBody').innerHTML = `<tr><td colspan="5" class="p-8 text-center text-red-400 font-bold">Access Denied</td></tr>`;
+        }
+
+        function unlockInterface() {
+            document.getElementById('permissionAlert').classList.add('hidden');
+            document.getElementById('sheetSubject').innerText = document.getElementById('scoreSubject').value;
+            
+            if (isLocked) {
+                document.getElementById('lockedAlert').classList.remove('hidden');
+                document.getElementById('btnFinalSubmit').classList.add('hidden');
+            } else {
+                document.getElementById('lockedAlert').classList.add('hidden');
+                document.getElementById('btnFinalSubmit').classList.remove('hidden');
+            }
+        }
+
+        // --- RENDER SHEETS ---
+        async function loadScoreSheet() {
+            const tbody = document.getElementById('scoreTableBody');
+            const subject = document.getElementById('scoreSubject').value;
+            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>`;
+
+            const { data: existingScores } = await client.from('grades').select('*').eq('class', currentClass).eq('subject', subject);
+
+            let html = '';
+            classStudents.forEach(s => {
+                const saved = existingScores?.find(g => g.student_id === s.id) || {};
+                const ca = saved.ca_score || '', exam = saved.exam_score || '', total = (Number(ca) + Number(exam)) || 0;
+                const disabled = isLocked ? 'disabled class="w-16 p-1 border rounded bg-gray-100"' : 'class="w-16 p-1 border rounded text-center focus:ring-2 focus:ring-ssia-green"';
+                const btnDisplay = isLocked ? 'hidden' : '';
+
+                html += `<tr class="hover:bg-gray-50 border-b last:border-0"><td class="px-4 py-3 font-bold text-gray-700">${s.full_name}</td><td class="px-4 py-3 text-center"><input type="number" max="40" ${disabled} value="${ca}" oninput="calcTotal(${s.id})" id="ca-${s.id}"></td><td class="px-4 py-3 text-center"><input type="number" max="60" ${disabled} value="${exam}" oninput="calcTotal(${s.id})" id="exam-${s.id}"></td><td class="px-4 py-3 text-center font-bold text-ssia-green" id="total-${s.id}">${total}</td><td class="px-4 py-3 text-center"><button onclick="confirmSaveScore(${s.id}, '${s.full_name}', '${s.admission_number}')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 ${btnDisplay}">Save</button></td></tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        async function loadAttendanceSheet() {
+            const tbody = document.getElementById('scoreTableBody');
+            document.getElementById('sheetSubject').innerText = "Attendance Record";
+            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center">Loading...</td></tr>`;
+            const { data: existingAtt } = await client.from('attendance').select('*').eq('class', currentClass);
+            
+            const disabled = isLocked ? 'disabled class="w-20 p-1 border rounded bg-gray-100"' : 'class="w-20 p-1 border rounded text-center"';
+            const btnDisplay = isLocked ? 'hidden' : '';
+
+            let html = `<tr class="bg-yellow-50 text-xs font-bold text-yellow-800"><td class="px-4 py-2">Student</td><td class="px-4 py-2 text-center" colspan="2">Days Present</td><td class="px-4 py-2 text-center">Total Days Open</td><td class="px-4 py-2 text-center">Action</td></tr>`;
+            classStudents.forEach(s => {
+                const saved = existingAtt?.find(a => a.student_id === s.id) || {};
+                const present = saved.days_present || '', total = saved.days_opened || '60';
+                html += `<tr class="hover:bg-gray-50 border-b"><td class="px-4 py-3 font-bold text-gray-700">${s.full_name}</td><td class="px-4 py-3 text-center" colspan="2"><input type="number" ${disabled} value="${present}" id="present-${s.id}"></td><td class="px-4 py-3 text-center"><input type="number" ${disabled} value="${total}" id="opened-${s.id}"></td><td class="px-4 py-3 text-center"><button onclick="confirmSaveAttendance(${s.id}, '${s.admission_number}')" class="bg-ssia-green text-white px-3 py-1 rounded text-xs ${btnDisplay}">Update</button></td></tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function calcTotal(id) {
+            let ca = Number(document.getElementById(`ca-${id}`).value) || 0;
+            let exam = Number(document.getElementById(`exam-${id}`).value) || 0;
+            if(ca > 40) { alert("CA max is 40"); ca = 40; document.getElementById(`ca-${id}`).value = 40; }
+            if(exam > 60) { alert("Exam max is 60"); exam = 60; document.getElementById(`exam-${id}`).value = 60; }
+            document.getElementById(`total-${id}`).innerText = ca + exam;
+        }
+
+        // --- SUBMISSION ---
+        function confirmFinalSubmit() {
+            const subject = document.getElementById('scoreSubject').value;
+            document.getElementById('modalTitle').innerText = "Submit Final Scores?";
+            document.getElementById('confirmText').innerHTML = `You are about to submit <b>${subject}</b> for <b>${currentClass}</b>.<br><br>After submission, you CANNOT edit these scores.<br>They will be sent to the Admin.`;
+            document.getElementById('confirmModal').classList.remove('hidden');
+            document.getElementById('confirmBtn').onclick = executeFinalSubmit;
+        }
+
+        async function executeFinalSubmit() {
+            closeModal();
+            const subject = document.getElementById('scoreSubject').value;
+            const { error } = await client.from('score_submissions').insert([{ class: currentClass, subject: subject, status: 'Submitted' }]);
+            
+            if (error) alert("Error: " + error.message);
+            else { showToast("Submitted Successfully!"); checkPermission(); }
+        }
+
+        // --- SAVE MODALS ---
+        function confirmSaveScore(id, name, admNo) {
+            const ca = document.getElementById(`ca-${id}`).value || 0;
+            const exam = document.getElementById(`exam-${id}`).value || 0;
+            document.getElementById('modalTitle').innerText = "Confirm Entry";
+            document.getElementById('confirmText').innerHTML = `Save score for <b>${name}</b>?<br><br>CA: ${ca} | Exam: ${exam}`;
+            document.getElementById('confirmModal').classList.remove('hidden');
+            document.getElementById('confirmBtn').onclick = () => executeSaveScore(id, name, admNo);
+        }
+
+        function confirmSaveAttendance(id, admNo) {
+            const present = document.getElementById(`present-${id}`).value;
+            document.getElementById('modalTitle').innerText = "Confirm Entry";
+            document.getElementById('confirmText').innerHTML = `Confirm Attendance update?<br><br>Days Present: ${present}`;
+            document.getElementById('confirmModal').classList.remove('hidden');
+            document.getElementById('confirmBtn').onclick = () => executeSaveAttendance(id, admNo);
+        }
+
+        function closeModal() { document.getElementById('confirmModal').classList.add('hidden'); }
+
+        async function executeSaveScore(id, name, admNo) {
+            closeModal();
+            const subject = document.getElementById('scoreSubject').value;
+            const ca = document.getElementById(`ca-${id}`).value || 0;
+            const exam = document.getElementById(`exam-${id}`).value || 0;
+            const { data: check } = await client.from('grades').select('id').eq('student_id', id).eq('subject', subject);
+            
+            let err;
+            if(check && check.length > 0) { const { error } = await client.from('grades').update({ ca_score: ca, exam_score: exam }).eq('id', check[0].id); err = error; } 
+            else { const { error } = await client.from('grades').insert([{ student_id: id, student_name: name, admission_number: admNo, class: currentClass, subject: subject, ca_score: ca, exam_score: exam }]); err = error; }
+            if(err) alert("Error: " + err.message); else showToast("Score Saved");
+        }
+
+        async function executeSaveAttendance(id, admNo) {
+            closeModal();
+            const present = document.getElementById(`present-${id}`).value;
+            const opened = document.getElementById(`opened-${id}`).value;
+            const { data: check } = await client.from('attendance').select('id').eq('student_id', id);
+            
+            let err;
+            if(check && check.length > 0) { const { error } = await client.from('attendance').update({ days_present: present, days_opened: opened }).eq('id', check[0].id); err = error; } 
+            else { const { error } = await client.from('attendance').insert([{ student_id: id, admission_number: admNo, class: currentClass, days_present: present, days_opened: opened }]); err = error; }
+            if(err) alert("Error: " + err.message); else showToast("Attendance Saved");
+        }
+
+        function showToast(msg) { const t = document.getElementById('toast'); document.getElementById('toastMsg').innerText = msg; t.classList.remove('translate-x-[150%]'); setTimeout(() => t.classList.add('translate-x-[150%]'), 2000); }
+    </script>
+</body>
+</html>
