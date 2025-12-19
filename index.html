@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabeelus Salaam Inclusive Academy (SSIA)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ssia-green': '#006633',
+                        'ssia-gold': '#FFD700',
+                        'ssia-dark': '#004d26',
+                        'ssia-light': '#f0fdf4',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Fade Animation for Slider */
+        .fade-enter { opacity: 0; transition: opacity 1s ease-in-out; }
+        .fade-enter-active { opacity: 1; }
+        /* Hide scrollbar for clean look */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+
+    <div class="bg-ssia-green text-white text-xs md:text-sm py-2 px-4 md:px-12 flex flex-col md:flex-row justify-between items-center gap-2">
+        <div class="flex items-center gap-4">
+            <span><i class="fas fa-map-marker-alt mr-2"></i> Dulla Tafa, Kagarko LGA, Kaduna State</span>
+            <span class="hidden md:inline">|</span>
+            <span><i class="fas fa-phone mr-2"></i> 0704 068 6186</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="#portal" class="bg-ssia-gold text-ssia-green font-bold px-3 py-1 rounded text-xs hover:bg-yellow-400 transition">
+                <i class="fas fa-lock mr-1"></i> Portal Login
+            </a>
+        </div>
+    </div>
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 md:px-12 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-ssia-green rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:bg-ssia-gold transition">S</div>
+                <div class="leading-tight">
+                    <h1 class="text-xl font-bold text-ssia-green tracking-tight">SSIA</h1>
+                    <p class="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Inclusive Academy</p>
+                </div>
+            </a>
+
+            <ul class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-600">
+                <li><a href="#home" class="hover:text-ssia-green transition">Home</a></li>
+                <li><a href="#about" class="hover:text-ssia-green transition">About Us</a></li>
+                <li><a href="#academics" class="hover:text-ssia-green transition">Academics</a></li>
+                <li><a href="#admissions" class="hover:text-ssia-green transition">Admissions</a></li>
+                <li><a href="#news" class="hover:text-ssia-green transition">News</a></li>
+                <li><a href="#contact" class="hover:text-ssia-green transition">Contact</a></li>
+                <li><a href="admission.html" class="bg-ssia-green text-white px-5 py-2 rounded-lg hover:bg-ssia-dark transition shadow-md">Apply Now</a></li>
+            </ul>
+
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl text-ssia-green"><i class="fas fa-bars"></i></button>
+        </div>
+        
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100 p-4 shadow-lg absolute w-full">
+            <ul class="space-y-4 font-semibold text-gray-700">
+                <li><a href="#home" class="block">Home</a></li>
+                <li><a href="#about" class="block">About Us</a></li>
+                <li><a href="#academics" class="block">Academics</a></li>
+                <li><a href="#admissions" class="block">Admissions</a></li>
+                <li><a href="#news" class="block">News</a></li>
+                <li><a href="#contact" class="block">Contact</a></li>
+                <li><a href="admission.html" class="block text-ssia-green">Apply Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="relative h-[600px] md:h-[80vh] bg-gray-900 overflow-hidden text-white flex items-center">
+        <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-100">
+            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-ssia-dark/90 to-transparent"></div>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to SSIA</h1>
+                <p class="text-xl md:text-2xl text-ssia-gold font-light">"Learning and Perseverance"</p>
+            </div>
+        </div>
+        <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0">
+            <img src="https://images.unsplash.com/photo-1577896334623-e711d598479c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-ssia-dark/90 to-transparent"></div>
+            <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Excellence in Education</h1>
+                <p class="text-xl md:text-2xl text-gray-200">Nurturing Minds from Nursery to Secondary</p>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 w-full flex justify-center gap-3 z-10">
+            <button onclick="changeSlide(0)" class="w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100"></button>
+            <button onclick="changeSlide(1)" class="w-3 h-3 rounded-full bg-white opacity-50 hover:opacity-100"></button>
+        </div>
+    </header>
+
+    <section class="py-16 px-4 md:px-12 bg-white">
+        <div class="container mx-auto grid md:grid-cols-3 gap-12 items-center">
+            <div class="md:col-span-1">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-ssia-gold">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Principal" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 bg-ssia-green w-full text-white p-4 text-center">
+                        <p class="font-bold">Mal. Ibrahim Ahmed</p>
+                        <p class="text-xs text-yellow-200">Principal, SSIA</p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:col-span-2">
+                <h4 class="text-ssia-green font-bold uppercase tracking-wider mb-2">From the Principal's Desk</h4>
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Welcome to a Center of Inclusive Excellence</h2>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    At Sabeelus Salaam Inclusive Academy, we believe that every child is a unique amanah (trust) placed in our care. Our mission goes beyond academic grades; we strive to mold character, instill perseverance, and build a foundation of moral integrity.
+                </p>
+                <p class="text-gray-600 mb-6 leading-relaxed">
+                    Located here in Dulla Tafa, we are proud to offer a curriculum that competes globally while remaining rooted in our local values. We invite you to join our journey.
+                </p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" alt="Signature" class="h-12 opacity-50">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 px-4 md:px-12 bg-ssia-light">
+        <div class="container mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-ssia-green">About Our School</h2>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button onclick="openTab('history')" class="tab-btn active bg-white px-6 py-2 rounded-full shadow hover:bg-ssia-green hover:text-white transition font-semibold text-ssia-green ring-2 ring-ssia-green">History</button>
+                <button onclick="openTab('vision')" class="tab-btn bg-white px-6 py-2 rounded-full shadow hover:bg-ssia-green hover:text-white transition font-semibold text-gray-600">Vision & Mission</button>
+                <button onclick="openTab('anthem')" class="tab-btn bg-white px-6 py-2 rounded-full shadow hover:bg-ssia-green hover:text-white transition font-semibold text-gray-600">School Anthem</button>
+            </div>
+
+            <div id="history" class="tab-content bg-white p-8 rounded-2xl shadow-lg max-w-4xl mx-auto">
+                <h3 class="text-2xl font-bold mb-4 text-ssia-dark">Our History</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Established to bridge the gap in quality education in Kagarko LGA, SSIA started as a humble initiative. Over the years, through the dedication of our staff and the support of the Dulla Tafa community, we have grown into a full-fledged academy serving Nursery, Primary, and Secondary students.
+                </p>
+            </div>
+
+            <div id="vision" class="tab-content hidden bg-white p-8 rounded-2xl shadow-lg max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-ssia-green mb-4"><i class="fas fa-eye text-xl"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Our Vision</h3>
+                    <p class="text-gray-600">To be a leading inclusive institution that nurtures future leaders with moral integrity and academic excellence.</p>
+                </div>
+                <div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 mb-4"><i class="fas fa-bullseye text-xl"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Our Mission</h3>
+                    <p class="text-gray-600">To provide a safe, inclusive learning environment that fosters critical thinking, creativity, and perseverance in every student.</p>
+                </div>
+            </div>
+
+            <div id="anthem" class="tab-content hidden bg-white p-8 rounded-2xl shadow-lg max-w-4xl mx-auto text-center">
+                <h3 class="text-2xl font-bold mb-4 text-ssia-dark">School Anthem</h3>
+                <p class="italic text-gray-600 leading-loose">
+                    Arise, O Compatriots... (Placeholder)<br>
+                    Great SSIA, Great!<br>
+                    Center of learning and light,<br>
+                    Guiding our steps to do right.<br>
+                    With Allah's help we shall rise,<br>
+                    To claim the golden prize.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="academics" class="py-16 px-4 md:px-12 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-ssia-green mb-2">Academic Divisions</h2>
+                <p class="text-gray-500">Comprehensive curriculum for every stage of growth.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-16 border-b pb-12">
+                <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-bold text-ssia-gold mb-2">Nursery Section</h3>
+                    <p class="text-sm font-bold text-gray-400 mb-4">AGES 2 - 5</p>
+                    <p class="text-gray-600 mb-4">Our Nursery section focuses on learning through play, developing motor skills, and social interaction.</p>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Numeracy & Literacy Basics</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Creative Arts & Crafts</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Social Habits & Safety</li>
+                    </ul>
+                </div>
+                <div class="order-1 md:order-2 h-64 bg-gray-200 rounded-xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-16 border-b pb-12">
+                <div class="h-64 bg-gray-200 rounded-xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1571260899304-42d93b631f09?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-ssia-green mb-2">Primary Section</h3>
+                    <p class="text-sm font-bold text-gray-400 mb-4">GRADES 1 - 6</p>
+                    <p class="text-gray-600 mb-4">We build a strong foundation in core subjects while encouraging curiosity and moral development.</p>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Mathematics & English</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Basic Science & Technology</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Islamic Religious Studies / CRK</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Computer Studies</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="order-2 md:order-1">
+                    <h3 class="text-2xl font-bold text-red-600 mb-2">Secondary Section</h3>
+                    <p class="text-sm font-bold text-gray-400 mb-4">JSS 1 - SS 3</p>
+                    <p class="text-gray-600 mb-4">Preparing students for WAEC, NECO, and JAMB with focused departmental choices.</p>
+                    <div class="flex gap-4">
+                        <span class="bg-gray-100 px-3 py-1 rounded text-xs font-bold">Science Dept</span>
+                        <span class="bg-gray-100 px-3 py-1 rounded text-xs font-bold">Arts Dept</span>
+                        <span class="bg-gray-100 px-3 py-1 rounded text-xs font-bold">Commercial</span>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 h-64 bg-gray-200 rounded-xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="py-16 px-4 md:px-12 bg-ssia-light">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-ssia-green mb-8 text-center">News & Events</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition">
+                    <div class="h-40 bg-gray-300"></div>
+                    <div class="p-4">
+                        <span class="text-xs text-ssia-gold font-bold">UPCOMING</span>
+                        <h4 class="font-bold text-lg mb-2">Inter-House Sports 2025</h4>
+                        <p class="text-gray-600 text-sm">Join us for a day of athletic excellence and team spirit.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition">
+                    <div class="h-40 bg-gray-300"></div>
+                    <div class="p-4">
+                        <span class="text-xs text-green-600 font-bold">NEWS</span>
+                        <h4 class="font-bold text-lg mb-2">Resumption Date Announced</h4>
+                        <p class="text-gray-600 text-sm">The new term begins on the 15th of September. Please prepare accordingly.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition">
+                    <div class="h-40 bg-gray-300"></div>
+                    <div class="p-4">
+                        <span class="text-xs text-green-600 font-bold">ACHIEVEMENT</span>
+                        <h4 class="font-bold text-lg mb-2">Best School in Kagarko LGA</h4>
+                        <p class="text-gray-600 text-sm">SSIA has been awarded the excellence award for the 2024 session.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="admissions" class="py-16 px-4 md:px-12 bg-ssia-green text-white">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">Join the SSIA Family</h2>
+                <h3 class="text-xl font-semibold mb-4 text-ssia-gold">Admission Requirements</h3>
+                <ul class="space-y-3 mb-8 text-green-100">
+                    <li class="flex items-center gap-2"><i class="fas fa-file-alt"></i> Completed Admission Form</li>
+                    <li class="flex items-center gap-2"><i class="fas fa-image"></i> 2 Recent Passport Photographs</li>
+                    <li class="flex items-center gap-2"><i class="fas fa-certificate"></i> Birth Certificate / Declaration of Age</li>
+                    <li class="flex items-center gap-2"><i class="fas fa-school"></i> Last School Result (for transfers)</li>
+                </ul>
+                <a href="admissions.html" class="bg-white text-ssia-green px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition inline-block">
+                    Fill Online Admission Form
+                </a>
+            </div>
+            <div class="bg-white/10 p-8 rounded-xl backdrop-blur-sm">
+                <h3 class="text-xl font-bold mb-4 border-b border-green-400 pb-2">Tuition & Fees</h3>
+                <p class="mb-4 text-sm">Our fees are structured to be affordable while ensuring quality.</p>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-green-600 pb-2">
+                        <span>Nursery Section</span>
+                        <a href="https://wa.me/2347040686186?text=Hello,%20I%20would%20like%20to%20inquire%20about%20Nursery%20School%20Fees" target="_blank" class="font-bold text-ssia-gold hover:text-white transition flex items-center gap-2 text-sm">
+                            <i class="fab fa-whatsapp"></i> Contact for Details
+                        </a>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-green-600 pb-2">
+                        <span>Primary Section</span>
+                        <a href="https://wa.me/2347040686186?text=Hello,%20I%20would%20like%20to%20inquire%20about%20Primary%20School%20Fees" target="_blank" class="font-bold text-ssia-gold hover:text-white transition flex items-center gap-2 text-sm">
+                            <i class="fab fa-whatsapp"></i> Contact for Details
+                        </a>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-green-600 pb-2">
+                        <span>Secondary Section</span>
+                        <a href="https://wa.me/2347040686186?text=Hello,%20I%20would%20like%20to%20inquire%20about%20Secondary%20School%20Fees" target="_blank" class="font-bold text-ssia-gold hover:text-white transition flex items-center gap-2 text-sm">
+                            <i class="fab fa-whatsapp"></i> Contact for Details
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-6 text-xs bg-black/20 p-3 rounded">
+                    <i class="fas fa-info-circle"></i> Fees are payable at the designated bank. No cash payments in school.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portal" class="py-16 px-4 md:px-12 bg-gray-100">
+        <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-2xl text-center">
+            <div class="w-16 h-16 bg-ssia-green rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                <i class="fas fa-user-lock"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">School Portal</h2>
+            <p class="text-gray-500 text-sm mb-6">Staff and Student secure login area</p>
+            
+            <form class="space-y-4">
+                <input type="text" placeholder="Portal ID / Admission No" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green">
+                <input type="password" placeholder="Password" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green">
+                <button class="w-full bg-ssia-green text-white font-bold py-3 rounded-lg hover:bg-green-800 transition">Login</button>
+            </form>
+            <p class="text-xs text-gray-400 mt-4">Forgot password? Contact the admin office.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 px-4 md:px-12 bg-white">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-3xl font-bold text-ssia-green mb-6">Get in Touch</h2>
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-green-100 rounded flex items-center justify-center text-ssia-green flex-shrink-0"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4 class="font-bold">Visit Us</h4>
+                            <p class="text-gray-600">Dulla Tafa, Kagarko Local Government Area,<br>Kaduna State, Nigeria.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-green-100 rounded flex items-center justify-center text-ssia-green flex-shrink-0"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4 class="font-bold">Email Us</h4>
+                            <p class="text-gray-600">info@ssia.edu.ng</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-green-100 rounded flex items-center justify-center text-ssia-green flex-shrink-0"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h4 class="font-bold">Call Us</h4>
+                            <p class="text-gray-600">0704 068 6186</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full h-64 bg-gray-200 rounded-lg overflow-hidden relative">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252230.01326269418!2d7.409149490196726!3d9.500547000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e60b1b1b1b1b1%3A0x1b1b1b1b1b1b1b1b!2sKagarko%2C%20Kaduna!5e0!3m2!1sen!2sng!4v1620000000000!5m2!1sen!2sng" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-8 rounded-xl shadow-lg border-t-4 border-green-500">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class="fab fa-whatsapp text-4xl text-green-500"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Chat with Us</h3>
+                        <p class="text-sm text-gray-500">Replies typically in minutes</p>
+                    </div>
+                </div>
+                
+                <form id="whatsappForm" onsubmit="sendToWhatsapp(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Your Name</label>
+                        <input type="text" id="wa_name" required placeholder="Parent / Guardian Name" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Inquiry Type</label>
+                        <select id="wa_type" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Admission">Admission</option>
+                            <option value="School Fees">School Fees</option>
+                            <option value="Complaint">Complaint</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Message</label>
+                        <textarea id="wa_message" rows="4" required placeholder="Type your message here..." class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition flex justify-center items-center gap-2 shadow-md">
+                        <span>Send via WhatsApp</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 px-4 md:px-12 text-center md:text-left">
+        <div class="container mx-auto grid md:grid-cols-4 gap-8 mb-8 border-b border-gray-800 pb-8">
+            <div class="col-span-1 md:col-span-2">
+                <h3 class="text-white text-2xl font-bold mb-4">SSIA</h3>
+                <p class="mb-4 text-sm max-w-sm">"Learning and Perseverance". We are dedicated to raising a generation that combines academic excellence with strong moral values.</p>
+            </div>
+            <div>
+                <h3 class="text-white text-lg font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#about" class="hover:text-white">About Us</a></li>
+                    <li><a href="#admissions" class="hover:text-white">Admissions</a></li>
+                    <li><a href="#portal" class="hover:text-white">Staff Portal</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white text-lg font-bold mb-4">Connect</h3>
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-ssia-gold hover:text-ssia-green transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-ssia-gold hover:text-ssia-green transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-ssia-gold hover:text-ssia-green transition"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-xs">
+            © 2025 Sabeelus Salaam Inclusive Academy. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 1. Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // 2. Tab Switching Logic (About Us)
+        function openTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-ssia-green', 'text-white', 'ring-2', 'ring-ssia-green');
+                btn.classList.add('bg-white', 'text-gray-600');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.remove('hidden');
+            
+            // Highlight clicked button
+            const activeBtn = event.currentTarget;
+            activeBtn.classList.remove('bg-white', 'text-gray-600');
+            activeBtn.classList.add('bg-ssia-green', 'text-white', 'ring-2', 'ring-ssia-green');
+        }
+
+        // 3. Hero Slider Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function changeSlide(index) {
+            slides[currentSlide].classList.remove('opacity-100');
+            slides[currentSlide].classList.add('opacity-0');
+            
+            currentSlide = index;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            
+            slides[currentSlide].classList.remove('opacity-0');
+            slides[currentSlide].classList.add('opacity-100');
+        }
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            changeSlide(currentSlide + 1);
+        }, 5000);
+
+        // 4. WhatsApp Form Logic (NEW)
+        function sendToWhatsapp(e) {
+            e.preventDefault(); // Stop page from refreshing
+
+            // Get values
+            const name = document.getElementById('wa_name').value;
+            const type = document.getElementById('wa_type').value;
+            const message = document.getElementById('wa_message').value;
+
+            // Your Phone Number (234 is Nigeria Code + 7040686186)
+            const phoneNumber = "2347040686186";
+
+            // Format the message
+            // %0a creates a new line
+            const text = `*New Website Inquiry* %0a%0a*Name:* ${name} %0a*Topic:* ${type} %0a*Message:* ${message}`;
+
+            // Create the URL
+            const url = `https://wa.me/${phoneNumber}?text=${text}`;
+
+            // Open in new tab
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>

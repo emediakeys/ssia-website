@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | SSIA</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ssia-green': '#006633',
+                        'ssia-gold': '#FFD700',
+                        'ssia-light': '#f0fdf4',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-100 min-h-screen">
+
+    <div id="loginScreen" class="flex items-center justify-center min-h-screen bg-ssia-green">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md text-center">
+            <div class="w-16 h-16 bg-ssia-light rounded-full flex items-center justify-center mx-auto mb-4 text-ssia-green text-2xl">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Admin Access</h2>
+            <p class="text-gray-500 mb-6">Enter the administrative passcode to view data.</p>
+            
+            <form onsubmit="checkLogin(event)">
+                <input type="password" id="passcode" placeholder="Enter Passcode" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green mb-4 text-center text-lg tracking-widest">
+                <button type="submit" class="w-full bg-ssia-green text-white font-bold py-3 rounded-lg hover:bg-green-800 transition shadow-lg">
+                    Unlock Dashboard
+                </button>
+            </form>
+            <p id="errorMsg" class="text-red-500 text-sm mt-3 hidden">Incorrect Passcode. Try 'admin123'</p>
+        </div>
+    </div>
+
+    <div id="dashboard" class="hidden">
+        
+        <nav class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-ssia-green rounded-full flex items-center justify-center text-white font-bold">A</div>
+                    <div>
+                        <h1 class="font-bold text-ssia-green leading-tight">Admin Portal</h1>
+                        <p class="text-xs text-gray-500">Admissions Manager</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="window.print()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                        <i class="fas fa-print mr-1"></i> Print
+                    </button>
+                    <button onclick="logout()" class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container mx-auto px-4 py-8">
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-ssia-green">
+                    <p class="text-xs font-bold text-gray-400 uppercase">Total Applications</p>
+                    <h3 class="text-2xl font-bold text-gray-800" id="totalCount">0</h3>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-yellow-400">
+                    <p class="text-xs font-bold text-gray-400 uppercase">Nursery</p>
+                    <h3 class="text-2xl font-bold text-gray-800" id="nurseryCount">0</h3>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-400">
+                    <p class="text-xs font-bold text-gray-400 uppercase">Primary</p>
+                    <h3 class="text-2xl font-bold text-gray-800" id="primaryCount">0</h3>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-red-400">
+                    <p class="text-xs font-bold text-gray-400 uppercase">Secondary</p>
+                    <h3 class="text-2xl font-bold text-gray-800" id="secondaryCount">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <h2 class="text-xl font-bold text-gray-800">Recent Applications</h2>
+                    <button onclick="fetchAdmissions()" class="text-ssia-green hover:text-green-800 text-sm font-semibold">
+                        <i class="fas fa-sync-alt mr-1"></i> Refresh Data
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-gray-50 text-xs uppercase text-gray-500 font-bold">
+                            <tr>
+                                <th class="px-6 py-4">Date</th>
+                                <th class="px-6 py-4">Student Name</th>
+                                <th class="px-6 py-4">Grade</th>
+                                <th class="px-6 py-4">Parent Name</th>
+                                <th class="px-6 py-4">Contact</th>
+                                <th class="px-6 py-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-gray-100">
+                            <tr>
+                                <td colspan="6" class="px-6 py-8 text-center text-gray-400">
+                                    <i class="fas fa-spinner fa-spin mr-2"></i> Loading data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // --- 1. SETUP ---
+        // REPLACE WITH YOUR ACTUAL KEYS
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_GOES_HERE';
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY_GOES_HERE';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // --- 2. LOGIN LOGIC ---
+        function checkLogin(e) {
+            e.preventDefault();
+            const input = document.getElementById('passcode').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            // SIMPLE PASSCODE (You can change this)
+            if (input === 'admin123') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                fetchAdmissions(); // Load data immediately
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('passcode').value = '';
+        }
+
+        // --- 3. DATA FETCHING LOGIC ---
+        async function fetchAdmissions() {
+            const tableBody = document.getElementById('tableBody');
+            
+            // Fetch data from Supabase
+            const { data, error } = await supabase
+                .from('admissions')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error:', error);
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-red-500">Error loading data. Check console.</td></tr>`;
+                return;
+            }
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center py-4">No applications received yet.</td></tr>`;
+                updateStats(data);
+                return;
+            }
+
+            // Render Rows
+            let html = '';
+            data.forEach(student => {
+                const date = new Date(student.created_at).toLocaleDateString();
+                
+                // Determine Badge Color based on Section
+                let badgeColor = 'bg-gray-100 text-gray-600';
+                if(student.grade_level.includes('Nursery')) badgeColor = 'bg-yellow-100 text-yellow-700';
+                else if(student.grade_level.includes('Primary')) badgeColor = 'bg-green-100 text-green-700';
+                else if(student.grade_level.includes('SS') || student.grade_level.includes('JSS')) badgeColor = 'bg-red-100 text-red-700';
+
+                html += `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4">${date}</td>
+                    <td class="px-6 py-4 font-bold text-gray-800">${student.full_name}</td>
+                    <td class="px-6 py-4">
+                        <span class="${badgeColor} px-2 py-1 rounded text-xs font-bold uppercase">${student.grade_level}</span>
+                    </td>
+                    <td class="px-6 py-4">${student.parent_name}</td>
+                    <td class="px-6 py-4">
+                        <div class="text-xs">
+                            <p><i class="fas fa-phone mr-1"></i> ${student.phone}</p>
+                            <p class="text-gray-400">${student.email || 'No Email'}</p>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs font-bold">New</span>
+                    </td>
+                </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+            updateStats(data);
+        }
+
+        // --- 4. STATS LOGIC ---
+        function updateStats(data) {
+            document.getElementById('totalCount').innerText = data.length;
+            
+            const nursery = data.filter(s => s.grade_level.includes('Nursery')).length;
+            const primary = data.filter(s => s.grade_level.includes('Primary')).length;
+            const secondary = data.filter(s => s.grade_level.includes('SS') || s.grade_level.includes('JSS')).length;
+
+            document.getElementById('nurseryCount').innerText = nursery;
+            document.getElementById('primaryCount').innerText = primary;
+            document.getElementById('secondaryCount').innerText = secondary;
+        }
+    </script>
+</body>
+</html>
