@@ -28,67 +28,104 @@
         }
     </script>
     <style>
-        /* Custom Fade Animation for Slider */
         .fade-enter { opacity: 0; transition: opacity 1s ease-in-out; }
         .fade-enter-active { opacity: 1; }
-        /* Hide scrollbar for clean look */
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Dropdown Hover Logic */
+        .group:hover .group-hover\:block { display: block; animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="font-sans text-gray-800 bg-gray-50">
+<body class="font-sans text-gray-800 bg-gray-50 flex flex-col min-h-screen">
 
     <div class="bg-ssia-green text-white text-xs md:text-sm py-2 px-4 md:px-12 flex flex-col md:flex-row justify-between items-center gap-2">
         <div class="flex items-center gap-4">
-            <span><i class="fas fa-map-marker-alt mr-2"></i> Dulla Tafa, Kagarko LGA, Kaduna State</span>
+            <span><i class="fas fa-map-marker-alt mr-2"></i> Dulla Tafa, Kagarko LGA, Kaduna</span>
             <span class="hidden md:inline">|</span>
-            <span><i class="fas fa-phone mr-2"></i> 0704 068 6186</span>
+            <span><i class="fas fa-phone mr-2"></i> +234 813 660 7474</span>
         </div>
         <div class="flex items-center gap-3">
-            <a href="#portal" class="bg-ssia-gold text-ssia-green font-bold px-3 py-1 rounded text-xs hover:bg-yellow-400 transition">
-                <i class="fas fa-lock mr-1"></i> Portal Login
-            </a>
+            <a href="#" class="hover:text-ssia-gold transition"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="hover:text-ssia-gold transition"><i class="fab fa-instagram"></i></a>
         </div>
     </div>
 
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 md:px-12 py-3 flex justify-between items-center">
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-12 h-12 bg-ssia-green rounded-full flex items-center justify-center text-white font-bold text-xl group-hover:bg-ssia-gold transition">S</div>
+            
+            <a href="#" class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-ssia-green rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl shadow-sm">S</div>
                 <div class="leading-tight">
-                    <h1 class="text-xl font-bold text-ssia-green tracking-tight">SSIA</h1>
-                    <p class="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Inclusive Academy</p>
+                    <h1 class="text-lg md:text-xl font-bold text-ssia-green tracking-tight">SSIA</h1>
+                    <p class="text-[9px] md:text-[10px] text-gray-500 font-bold tracking-widest uppercase">Inclusive Academy</p>
                 </div>
             </a>
 
             <ul class="hidden lg:flex items-center gap-6 font-semibold text-sm text-gray-600">
-                <li><a href="#home" class="hover:text-ssia-green transition">Home</a></li>
-                <li><a href="#about" class="hover:text-ssia-green transition">About Us</a></li>
-                <li><a href="#academics" class="hover:text-ssia-green transition">Academics</a></li>
-                <li><a href="#admissions" class="hover:text-ssia-green transition">Admissions</a></li>
-                <li><a href="#news" class="hover:text-ssia-green transition">News</a></li>
-                <li><a href="#contact" class="hover:text-ssia-green transition">Contact</a></li>
-                <li><a href="admission.html" class="bg-ssia-green text-white px-5 py-2 rounded-lg hover:bg-ssia-dark transition shadow-md">Apply Now</a></li>
+                <li><a href="#home" class="hover:text-ssia-green transition py-2">Home</a></li>
+                <li><a href="#about" class="hover:text-ssia-green transition py-2">About</a></li>
+                <li><a href="#academics" class="hover:text-ssia-green transition py-2">Academics</a></li>
+                <li><a href="#admissions" class="hover:text-ssia-green transition py-2">Admissions</a></li>
+                <li><a href="#news" class="hover:text-ssia-green transition py-2">News</a></li>
+                <li><a href="#contact" class="hover:text-ssia-green transition py-2">Contact</a></li>
             </ul>
 
-            <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl text-ssia-green"><i class="fas fa-bars"></i></button>
+            <div class="hidden lg:flex items-center gap-4">
+                <div class="relative group">
+                    <button class="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-ssia-green py-2 focus:outline-none">
+                        <i class="fas fa-lock text-ssia-gold"></i> Portals <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-0 w-56 bg-white border border-gray-100 rounded-xl shadow-2xl hidden group-hover:block overflow-hidden z-50">
+                        <div class="bg-gray-50 px-4 py-2 border-b text-xs font-bold text-gray-400 uppercase">Login Access</div>
+                        <a href="admin.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700 hover:text-ssia-green transition border-b border-gray-100">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fas fa-user-shield"></i></div>
+                            <div class="text-sm font-bold">Admin</div>
+                        </a>
+                        <a href="teacher.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700 hover:text-ssia-green transition border-b border-gray-100">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fas fa-chalkboard-teacher"></i></div>
+                            <div class="text-sm font-bold">Staff</div>
+                        </a>
+                        <a href="student.html" class="flex items-center gap-3 px-4 py-3 hover:bg-green-50 text-gray-700 hover:text-ssia-green transition">
+                            <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center"><i class="fas fa-user-graduate"></i></div>
+                            <div class="text-sm font-bold">Student</div>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="admission.html" class="bg-ssia-green text-white px-5 py-2.5 rounded-lg text-sm font-bold shadow-md hover:bg-green-800 hover:shadow-lg transition transform hover:-translate-y-0.5">
+                    Apply Now
+                </a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-2xl text-ssia-green p-2 focus:outline-none"><i class="fas fa-bars"></i></button>
         </div>
         
-        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100 p-4 shadow-lg absolute w-full">
-            <ul class="space-y-4 font-semibold text-gray-700">
-                <li><a href="#home" class="block">Home</a></li>
-                <li><a href="#about" class="block">About Us</a></li>
-                <li><a href="#academics" class="block">Academics</a></li>
-                <li><a href="#admissions" class="block">Admissions</a></li>
-                <li><a href="#news" class="block">News</a></li>
-                <li><a href="#contact" class="block">Contact</a></li>
-                <li><a href="admission.html" class="block text-ssia-green">Apply Now</a></li>
-            </ul>
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100 shadow-xl">
+            <div class="flex flex-col p-4 space-y-3 font-semibold text-gray-700">
+                <a href="#home" class="hover:text-ssia-green">Home</a>
+                <a href="#about" class="hover:text-ssia-green">About</a>
+                <a href="#academics" class="hover:text-ssia-green">Academics</a>
+                <a href="#admissions" class="hover:text-ssia-green">Admissions</a>
+                <a href="#news" class="hover:text-ssia-green">News</a>
+                <a href="#contact" class="hover:text-ssia-green">Contact</a>
+                
+                <div class="border-t border-gray-100 pt-3 mt-2">
+                    <p class="text-xs text-gray-400 uppercase font-bold mb-3 pl-2">Portal Logins</p>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <a href="admin.html" class="p-2 bg-blue-50 text-blue-700 rounded hover:bg-blue-100"><i class="fas fa-shield-alt block text-lg mb-1"></i>Admin</a>
+                        <a href="teacher.html" class="p-2 bg-yellow-50 text-yellow-700 rounded hover:bg-yellow-100"><i class="fas fa-chalkboard-teacher block text-lg mb-1"></i>Staff</a>
+                        <a href="student.html" class="p-2 bg-green-50 text-green-700 rounded hover:bg-green-100"><i class="fas fa-user-graduate block text-lg mb-1"></i>Student</a>
+                    </div>
+                </div>
+
+                <a href="admissions.html" class="block w-full bg-ssia-green text-white text-center py-3 rounded-lg font-bold shadow mt-4">Apply for Admission</a>
+            </div>
         </div>
     </nav>
 
     <header id="home" class="relative h-[600px] md:h-[80vh] bg-gray-900 overflow-hidden text-white flex items-center">
         <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-100">
-            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" class="w-full h-full object-cover opacity-40">
+            <img src="primary.jpg" class="w-full h-full object-cover opacity-40">
             <div class="absolute inset-0 bg-gradient-to-t from-ssia-dark/90 to-transparent"></div>
             <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to SSIA</h1>
@@ -96,7 +133,7 @@
             </div>
         </div>
         <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0">
-            <img src="https://images.unsplash.com/photo-1577896334623-e711d598479c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" class="w-full h-full object-cover opacity-40">
+            <img src="nur.jpg" class="w-full h-full object-cover opacity-40">
             <div class="absolute inset-0 bg-gradient-to-t from-ssia-dark/90 to-transparent"></div>
             <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">Excellence in Education</h1>
@@ -114,9 +151,9 @@
         <div class="container mx-auto grid md:grid-cols-3 gap-12 items-center">
             <div class="md:col-span-1">
                 <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-ssia-gold">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Principal" class="w-full h-full object-cover">
+                    <img src="hm.png" alt="Principal" class="w-full h-full object-cover">
                     <div class="absolute bottom-0 bg-ssia-green w-full text-white p-4 text-center">
-                        <p class="font-bold">Mal. Ibrahim Ahmed</p>
+                        <p class="font-bold">Mal. Adam Abdulmumin</p>
                         <p class="text-xs text-yellow-200">Principal, SSIA</p>
                     </div>
                 </div>
@@ -130,7 +167,7 @@
                 <p class="text-gray-600 mb-6 leading-relaxed">
                     Located here in Dulla Tafa, we are proud to offer a curriculum that competes globally while remaining rooted in our local values. We invite you to join our journey.
                 </p>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Signature_sample.svg" alt="Signature" class="h-12 opacity-50">
+                <img src="sign.png" alt="Signature" class="h-12 opacity-50">
             </div>
         </div>
     </section>
@@ -200,13 +237,13 @@
                     </ul>
                 </div>
                 <div class="order-1 md:order-2 h-64 bg-gray-200 rounded-xl overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    <img src="nur.jpg" class="w-full h-full object-cover">
                 </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 items-center mb-16 border-b pb-12">
                 <div class="h-64 bg-gray-200 rounded-xl overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1571260899304-42d93b631f09?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    <img src="primary.jpg" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <h3 class="text-2xl font-bold text-ssia-green mb-2">Primary Section</h3>
@@ -233,7 +270,7 @@
                     </div>
                 </div>
                 <div class="order-1 md:order-2 h-64 bg-gray-200 rounded-xl overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    <img src="secondary.jpg" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
@@ -316,22 +353,6 @@
         </div>
     </section>
 
-    <section id="portal" class="py-16 px-4 md:px-12 bg-gray-100">
-        <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-2xl text-center">
-            <div class="w-16 h-16 bg-ssia-green rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
-                <i class="fas fa-user-lock"></i>
-            </div>
-            <h2 class="text-2xl font-bold mb-2">School Portal</h2>
-            <p class="text-gray-500 text-sm mb-6">Staff and Student secure login area</p>
-            
-            <form class="space-y-4">
-                <input type="text" placeholder="Portal ID / Admission No" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green">
-                <input type="password" placeholder="Password" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-ssia-green">
-                <button class="w-full bg-ssia-green text-white font-bold py-3 rounded-lg hover:bg-green-800 transition">Login</button>
-            </form>
-            <p class="text-xs text-gray-400 mt-4">Forgot password? Contact the admin office.</p>
-        </div>
-    </section>
 
     <section id="contact" class="py-16 px-4 md:px-12 bg-white">
         <div class="container mx-auto grid md:grid-cols-2 gap-12">
@@ -356,7 +377,7 @@
                         <div class="w-10 h-10 bg-green-100 rounded flex items-center justify-center text-ssia-green flex-shrink-0"><i class="fas fa-phone"></i></div>
                         <div>
                             <h4 class="font-bold">Call Us</h4>
-                            <p class="text-gray-600">0704 068 6186</p>
+                            <p class="text-gray-600">+234 813 660 7474</p>
                         </div>
                     </div>
                 </div>
@@ -481,7 +502,7 @@
             changeSlide(currentSlide + 1);
         }, 5000);
 
-        // 4. WhatsApp Form Logic (NEW)
+        // 4. WhatsApp Form Logic
         function sendToWhatsapp(e) {
             e.preventDefault(); // Stop page from refreshing
 
